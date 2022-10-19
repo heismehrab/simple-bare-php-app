@@ -1,0 +1,16 @@
+{
+    "name": "heismehrab/filimo",
+    "description": "An url shortener application",
+    "authors": [
+        {
+            "name": "heismehrab",
+            "email": "hedayatmanesh.mehrab@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app"
+        }
+    },
+    "require": {}
+}
