@@ -2,6 +2,8 @@
 
 namespace App\Kernel;
 
+use App\Kernel\Database\Mysql;
+use App\Kernel\Database\MysqlConnector;
 use Throwable;
 
 use App\Kernel\Route\Route;
@@ -40,6 +42,8 @@ class Kernel implements KernelHandlerInterface
 
         // Register Application bindings.
         Route::handle();
+
+        Mysql::handle();
     }
 
     /**
