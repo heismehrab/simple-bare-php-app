@@ -2,6 +2,8 @@
 
 namespace App\Kernel\Route;
 
+use App\Kernel\KernelHandlerInterface;
+
 use App\Kernel\Route\Exceptions\{
     ClassNotFoundException,
     MethodNotFoundException
@@ -11,7 +13,7 @@ use App\Kernel\Route\Exceptions\{
  * Handles Application defined routes and finds
  * required Controller of current url.
  */
-class Route extends BaseRoute
+class Route extends BaseRoute implements KernelHandlerInterface
 {
     /**
      * Process and Handle Application routes,
