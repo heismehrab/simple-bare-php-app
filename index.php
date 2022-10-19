@@ -2,5 +2,7 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+use App\Kernel\Kernel;
+
 // Serve the Application.
-return \App\Kernel\Kernel::handle();
+return Kernel::handle();
