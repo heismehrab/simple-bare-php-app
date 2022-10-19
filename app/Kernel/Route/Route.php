@@ -60,6 +60,38 @@ class Route extends BaseRoute implements KernelHandlerInterface
     }
 
     /**
+     * Register DELETE routes.
+     *
+     * @param string $url
+     * @param array $class
+     *
+     * @return void
+     *
+     * @throws ClassNotFoundException
+     * @throws MethodNotFoundException
+     */
+    public static function delete(string $url, array $class): void
+    {
+        self::registerRoute('DELETE', $url, $class);
+    }
+
+    /**
+     * Register PATCH routes.
+     *
+     * @param string $url
+     * @param array $class
+     *
+     * @return void
+     *
+     * @throws ClassNotFoundException
+     * @throws MethodNotFoundException
+     */
+    public static function patch(string $url, array $class): void
+    {
+        self::registerRoute('PATCH', $url, $class);
+    }
+
+    /**
      * Process and return defined routes.
      *
      * @return array[]

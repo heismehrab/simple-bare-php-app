@@ -6,7 +6,7 @@ use App\Kernel\Controller\BaseController;
 use App\Kernel\Request\HttpRequest\Request;
 
 use App\Repositories\UrlShortenerRepository;
-use App\Services\UrlShortener\UrlShortenerService;
+use App\Services\UrlShortener\UrlShortenerServiceOperations;
 
 /**
  * A controller which provided for url
@@ -22,7 +22,7 @@ class LinkShortenerController extends BaseController
      */
     public function create(): string
     {
-        $result = (new UrlShortenerService)
+        $result = (new UrlShortenerServiceOperations)
             ->encodeAndSave(
                 Request::getParam('link'),
                 new UrlShortenerRepository
@@ -32,6 +32,46 @@ class LinkShortenerController extends BaseController
             statusCode: 201,
             data: $result,
             developerMessages: 'Resource created'
+        );
+    }
+
+    /**
+     * @return string
+     *
+     * @throws \App\Kernel\Route\Exceptions\RouteNotFoundException
+     */
+    public function delete(): string
+    {
+        $result = (new UrlShortenerServiceOperations)
+            ->delete(
+                Request::getParam('link'),
+                new UrlShortenerRepository
+            );
+
+        return $this->response(
+            statusCode: 204,
+            data: $result,
+            developerMessages: 'Resource deleted'
+        );
+    }
+
+    /**
+     * @return string
+     *
+     * @throws \App\Kernel\Route\Exceptions\RouteNotFoundException
+     */
+    public function update(): string
+    {
+        $result = (new UrlShortenerServiceOperations)
+            ->update(
+                Request::getParam('link'),
+                Request::getParam('replacedLink'),
+                new UrlShortenerRepository
+            );
+
+        return $this->response(
+            data: $result,
+            developerMessages: 'Resource updated'
         );
     }
 }

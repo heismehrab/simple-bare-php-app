@@ -2,9 +2,6 @@
 
 namespace App\Services\UrlShortener;
 
-use App\Repositories\Exceptions\InvalidRepositoryException;
-use App\Repositories\GeneralRepositoryInterface;
-
 use App\Services\UrlShortener\Exceptions\InvalidUrlValidationException;
 
 /**
@@ -48,36 +45,6 @@ class UrlShortenerService
         return base64_decode(
             explode($domain, $url)[1]
         );
-    }
-
-    /**
-     * Encodes a URL and saves it in database.
-     *
-     * @param string $url
-     * @param GeneralRepositoryInterface $repository
-     *
-     * @return array
-     *
-     * @throws InvalidUrlValidationException
-     */
-    public function encodeAndSave(
-        string $url,
-        GeneralRepositoryInterface $repository
-    ): array {
-
-        $encodedUrl = $this->encodeUrl($url);
-
-        $query = <<<HERE
-            INSERT INTO links (link, encoded_link) VALUES (?, ?);
-        HERE;
-
-        // Store data in database.
-        $repository->rawQuery($query, [$url, $encodedUrl]);
-
-        return [
-            'url' => $url,
-            'encodedUrl' => $encodedUrl
-        ];
     }
 
     /**
