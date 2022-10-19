@@ -2,9 +2,9 @@
 
 namespace App\Kernel\Route;
 
-use App\Http\Controller\ExampleController;
+use App\Http\Controller\LinkShortenerController;
 
-Route::get('example', [ExampleController::class, 'test']);
+Route::post('link-shortener', [LinkShortenerController::class, 'create']);
 
 // Register above defined routes.
 return Route::run();

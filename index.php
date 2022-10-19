@@ -4,5 +4,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use App\Kernel\Kernel;
 
-// Serve the Application.
-return Kernel::handle();
+// Serves the Application.
+echo Kernel::handle();
+
+// Terminates the Application.
+Kernel::terminate();

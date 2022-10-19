@@ -56,6 +56,17 @@ class Kernel
     }
 
     /**
+     * Terminates the Application after
+     * proceeding the request.
+     *
+     * @return never
+     */
+    public static function terminate(): never
+    {
+        exit();
+    }
+
+    /**
      * Load base bindings/utilities.
      *
      * @return void

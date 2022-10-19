@@ -29,8 +29,26 @@ class Mysql extends MysqlConnector implements KernelHandlerInterface
      *
      * @return bool|mysqli_result
      */
-    public function query(string $query, array $bindings = []): bool|mysqli_result
+    public static function query(string $query, array $bindings = []): bool|mysqli_result
     {
-        return self::getConnection()->query($query);
+         $query = self::getConnection()->prepare($query);
+         
+         $query->bind_param(
+             str_repeat('s', count($bindings)),
+             ... $bindings
+         );
+
+         return $query->execute();
+    }
+
+    /**
+     * Closes the created connection to database
+     * on destroy action.
+     */
+    public function __destruct()
+    {
+        self::$connection->close();
+
+        self::$connection = null;
     }
 }

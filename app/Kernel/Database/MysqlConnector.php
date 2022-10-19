@@ -62,13 +62,4 @@ class MysqlConnector
 
         return self::$connection;
     }
-
-    /**
-     * Closes the created connection to database
-     * on destroy action.
-     */
-    public function __destruct()
-    {
-        self::$connection->close();
-    }
 }
