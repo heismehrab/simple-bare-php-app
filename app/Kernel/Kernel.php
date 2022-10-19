@@ -12,10 +12,15 @@ use App\Kernel\Utilities\UtilitiesInterface;
 use App\Kernel\Utilities\Env\Env;
 use App\Kernel\Utilities\Env\Exceptions\UtilitiesLoadingException;
 
+use App\Kernel\Route\Exceptions\RouteNotFoundException;
+
+use App\Kernel\Request\HttpRequest\Request;
+use App\Kernel\Request\ControllerAction\RequestActionPipeline;
+
 /**
  * Serves Application's requirements at first hit.
  */
-class Kernel implements KernelHandlerInterface
+class Kernel
 {
     /**
      * Bootstraps base utilities which are required
@@ -28,13 +33,13 @@ class Kernel implements KernelHandlerInterface
     ];
 
     /**
-     * {@inheritDoc}
+     * Register required bindings and utilities.
      *
-     * @return void
+     * @return mixed
      *
-     * @throws UtilitiesLoadingException
+     * @throws UtilitiesLoadingException|RouteNotFoundException
      */
-    public static function handle(): void
+    public static function handle(): mixed
     {
         // Load required Utilities.
         self::loadBaseBindings();
@@ -43,6 +48,11 @@ class Kernel implements KernelHandlerInterface
         Route::handle();
 
         Mysql::handle();
+
+        return (new RequestActionPipeline)
+            ->class(Request::getTargetClass())
+            ->method(Request::getTargetMethod())
+            ->execute();
     }
 
     /**
