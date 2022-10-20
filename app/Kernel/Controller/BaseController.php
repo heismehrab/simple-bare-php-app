@@ -27,6 +27,7 @@ class BaseController implements ControllerInterface
         string|array $messages = [],
         string|array $developerMessages = []
     ): string {
+        http_response_code($statusCode);
         header('Content-Type: application/json; charset=utf-8');
 
         return json_encode([

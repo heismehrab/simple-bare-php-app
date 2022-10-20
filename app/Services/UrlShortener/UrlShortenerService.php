@@ -26,25 +26,7 @@ class UrlShortenerService
             throw new InvalidUrlValidationException("Invalid Url {$url}");
         }
 
-        $domain = $this->getConstantLink();
-
-        return $domain . base64_encode($url);
-    }
-
-    /**
-     * Decode a shorted Url.
-     *
-     * @param string $url
-     *
-     * @return string
-     */
-    public function decodeUrl(string $url): string
-    {
-        $domain = $this->getConstantLink();
-
-        return base64_decode(
-            explode($domain, $url)[1]
-        );
+        return $this->getConstantLink() . time() . uniqid();
     }
 
     /**
@@ -53,7 +35,7 @@ class UrlShortenerService
      *
      * @return string
      */
-    private function getConstantLink(): string
+    protected function getConstantLink(): string
     {
         return $_ENV['URL_SHORTENER_SERVICE_DOMAIN'];
     }

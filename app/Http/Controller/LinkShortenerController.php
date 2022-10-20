@@ -64,6 +64,8 @@ class LinkShortenerController extends BaseController
     }
 
     /**
+     * Updates a URL.
+     *
      * @return string
      *
      * @throws \App\Kernel\Route\Exceptions\RouteNotFoundException
@@ -80,6 +82,33 @@ class LinkShortenerController extends BaseController
         return $this->response(
             data: $result,
             developerMessages: 'Resource updated'
+        );
+    }
+
+    /**
+     * Decode and redirect to main URL.
+     *
+     * @return string
+     *
+     * @throws \App\Kernel\Route\Exceptions\RouteNotFoundException
+     */
+    public function decodeAndRedirect(): string
+    {
+        $result = (new UrlShortenerServiceOperations)
+            ->decode(
+                Request::getParam('e'),
+                new UrlShortenerRepository
+            );
+
+        if (! $result == null) {
+            header('Location: ' . $result);
+
+            return $this->response();
+        }
+
+        return $this->response(
+            statusCode: 404,
+            developerMessages: 'Could not decode the link'
         );
     }
 }

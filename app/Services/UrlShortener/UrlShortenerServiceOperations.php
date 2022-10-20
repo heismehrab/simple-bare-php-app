@@ -86,9 +86,35 @@ class UrlShortenerServiceOperations extends UrlShortenerService
             UPDATE links SET encoded_link = ? WHERE link = ? ;
         HERE;
 
+        $url = $this->getConstantLink() . $url;
+
         // Store data in database.
         $repository->rawQuery($query, [$replacedUrl, $url]);
 
         return [];
+    }
+
+    /**
+     * Decode URL and return the main link.
+     *
+     * @param string $url
+     * @param GeneralRepositoryInterface $repository
+     *
+     * @return string|null
+     */
+    public function decode(
+        string $url,
+        GeneralRepositoryInterface $repository
+    ): ?string {
+
+        $query = <<<HERE
+            select link FROM links WHERE encoded_link = ?;
+        HERE;
+
+        $url = $this->getConstantLink() . $url;
+
+        $result = $repository->rawQuery($query, [$url]);
+
+        return $result->fetch_array()['link'] ?? null;
     }
 }

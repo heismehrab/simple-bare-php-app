@@ -9,8 +9,13 @@ use App\Http\Controller\{
     LinkShortenerController
 };
 
+// Auth APIs.
 Route::post('users', [AuthController::class, 'register']);
 
+// Decode and redirect API.
+Route::get('/links', [LinkShortenerController::class, 'decodeAndRedirect']);
+
+// Link shortener APIs.
 Route::post('link-shortener', [LinkShortenerController::class, 'create'])
     ->middlewareAction(new AuthMiddleware);
 
