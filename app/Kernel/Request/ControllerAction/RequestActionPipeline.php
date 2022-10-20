@@ -2,6 +2,8 @@
 
 namespace App\Kernel\Request\ControllerAction;
 
+use App\Kernel\Middleware\Exceptions\MiddlewareFailureException;
+
 /**
  * Designed to Execute the classes with given parameters
  * using Pipeline design pattern.
@@ -31,6 +33,14 @@ class RequestActionPipeline
      * @var array
      */
     private array $methodParams = [];
+
+
+    /**
+     * Keeps the middleware of the controller if set.
+     *
+     * @var string|null
+     */
+    private ?string $middleware = null;
 
     /**
      * Gets the target class.
@@ -75,12 +85,34 @@ class RequestActionPipeline
     }
 
     /**
+     * Gets the required params for class's method.
+     *
+     * @param ?string $middleware
+     *
+     * @return self
+     */
+    public function middleware(?string $middleware): self
+    {
+        $this->middleware = $middleware;
+
+        return $this;
+    }
+
+    /**
      * Runs the target class and return its response.
      *
      * @return mixed
+     *
+     * @throws MiddlewareFailureException
      */
     public function execute(): mixed
     {
+        if ($this->middleware && (! (new $this->middleware)->handle())) {
+            throw new MiddlewareFailureException(
+                "Failed to handle middleware {$this->middleware}"
+            );
+        }
+
         return (new $this->className)
             ->{$this->methodName}(... $this->methodParams);
     }

@@ -2,6 +2,8 @@
 
 namespace App\Kernel\Route;
 
+use App\Kernel\Middleware\MiddlewareInterface;
+
 use App\Kernel\Route\Exceptions\{
     ClassNotFoundException,
     MethodNotFoundException,
@@ -33,6 +35,26 @@ abstract class BaseRoute
      * @var array
      */
     private static array $currentRouteDetails = [];
+
+    /**
+     * Keeps current route Middleware.
+     *
+     * @var MiddlewareInterface|null
+     */
+    private static MiddlewareInterface|null $routeMiddleware = null;
+
+    /**
+     * Sets middleware for current route.
+     *
+     * @param MiddlewareInterface $middleware
+     *
+     * @return void
+     */
+    protected static function setRouteMiddleware(
+        MiddlewareInterface $middleware
+    ): void {
+        self::$routeMiddleware = $middleware;
+    }
 
     /**
      * Retrieve defined routes in route.php
@@ -69,6 +91,8 @@ abstract class BaseRoute
 
         return self::$currentRouteDetails = [
             'route' => $uri,
+            'routeMiddleware' => $actionController[2],
+
             'httpMethod' => $method,
 
             'class' => $actionController[0],
@@ -122,5 +146,28 @@ abstract class BaseRoute
         }
 
         self::$routes[$method][$url] = $class;
+
+        // Sets middleware for route.
+        if ($middleware = self::handleMiddleware()) {
+            self::$routes[$method][$url][2] = $middleware;
+        }
+    }
+
+    /**
+     * Check current route's middleware, sets it if
+     * exists and clears the state.
+     *
+     * @return string|null
+     */
+    private static function handleMiddleware(): ?string
+    {
+        if (self::$routeMiddleware == null) {
+            return null;
+        }
+
+        $middleware = self::$routeMiddleware;
+        self::$routeMiddleware = null;
+
+        return $middleware::class;
     }
 }

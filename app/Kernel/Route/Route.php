@@ -15,6 +15,8 @@ use App\Kernel\Route\Exceptions\{
  */
 class Route extends BaseRoute implements KernelHandlerInterface
 {
+    use RouteActionsTrait;
+
     /**
      * Process and Handle Application routes,
      * then return the class of given URL.
@@ -33,14 +35,16 @@ class Route extends BaseRoute implements KernelHandlerInterface
      * @param string $url
      * @param array $class
      *
-     * @return void
+     * @return self
      *
      * @throws ClassNotFoundException
      * @throws MethodNotFoundException
      */
-    public static function get(string $url, array $class): void
+    public static function get(string $url, array $class): self
     {
         self::registerRoute('GET', $url, $class);
+
+        return new Route;
     }
 
     /**
@@ -49,14 +53,16 @@ class Route extends BaseRoute implements KernelHandlerInterface
      * @param string $url
      * @param array $class
      *
-     * @return void
+     * @return self
      *
      * @throws ClassNotFoundException
      * @throws MethodNotFoundException
      */
-    public static function post(string $url, array $class): void
+    public static function post(string $url, array $class): self
     {
         self::registerRoute('POST', $url, $class);
+
+        return new Route;
     }
 
     /**
@@ -65,14 +71,16 @@ class Route extends BaseRoute implements KernelHandlerInterface
      * @param string $url
      * @param array $class
      *
-     * @return void
+     * @return self
      *
      * @throws ClassNotFoundException
      * @throws MethodNotFoundException
      */
-    public static function delete(string $url, array $class): void
+    public static function delete(string $url, array $class): self
     {
         self::registerRoute('DELETE', $url, $class);
+
+        return new Route;
     }
 
     /**
@@ -81,14 +89,16 @@ class Route extends BaseRoute implements KernelHandlerInterface
      * @param string $url
      * @param array $class
      *
-     * @return void
+     * @return self
      *
      * @throws ClassNotFoundException
      * @throws MethodNotFoundException
      */
-    public static function patch(string $url, array $class): void
+    public static function patch(string $url, array $class): self
     {
         self::registerRoute('PATCH', $url, $class);
+
+        return new Route;
     }
 
     /**

@@ -13,6 +13,7 @@ use App\Kernel\Utilities\Env\Env;
 use App\Kernel\Utilities\Env\Exceptions\UtilitiesLoadingException;
 
 use App\Kernel\Route\Exceptions\RouteNotFoundException;
+use App\Kernel\Middleware\Exceptions\MiddlewareFailureException;
 
 use App\Kernel\Request\HttpRequest\Request;
 use App\Kernel\Request\ControllerAction\RequestActionPipeline;
@@ -37,7 +38,7 @@ class Kernel
      *
      * @return mixed
      *
-     * @throws UtilitiesLoadingException|RouteNotFoundException
+     * @throws RouteNotFoundException|MiddlewareFailureException|UtilitiesLoadingException
      */
     public static function handle(): mixed
     {
@@ -46,12 +47,14 @@ class Kernel
 
         // Register Application bindings.
         Route::handle();
-
         Mysql::handle();
+        
+        //var_dump(Route::getCurrentRouteDetails());
 
         return (new RequestActionPipeline)
             ->class(Request::getTargetClass())
             ->method(Request::getTargetMethod())
+            ->middleware(Request::getMiddleware())
             ->execute();
     }
 

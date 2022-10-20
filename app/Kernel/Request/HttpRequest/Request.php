@@ -74,4 +74,14 @@ abstract class Request
     {
         return Route::getCurrentRouteDetails()['params'][$param] ?: $default;
     }
+
+    /**
+     * @return string
+     *
+     * @throws RouteNotFoundException
+     */
+    public static function getMiddleware(): string
+    {
+        return Route::getCurrentRouteDetails()['routeMiddleware'];
+    }
 }
