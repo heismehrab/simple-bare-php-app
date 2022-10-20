@@ -3,7 +3,9 @@
 namespace App\Kernel\Database;
 
 use Exception;
+
 use mysqli_result;
+use mysqli_sql_exception;
 
 use App\Kernel\KernelHandlerInterface;
 
@@ -37,21 +39,28 @@ class Mysql extends MysqlConnector implements KernelHandlerInterface
         try {
             $query = self::getConnection()->prepare($query);
 
-            $query->bind_param(
-                str_repeat('s', count($bindings)),
-                ... $bindings
-            );
+            if (count($bindings)) {
+                $query->bind_param(
+                    str_repeat('s', count($bindings)),
+                    ... $bindings
+                );
+            }
 
-            $result = $query->execute();
+            $query->execute();
+            $result = $query->get_result();
 
             self::getConnection()->commit();
 
             return $result;
-        } catch (Exception) {
+        } catch (Exception $exception) {
             self::getConnection()->rollback();
-        }
 
-        return false;
+            throw new mysqli_sql_exception(
+                $exception->getMessage(),
+                $exception->getCode(),
+                $exception
+            );
+        }
     }
 
     /**

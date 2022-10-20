@@ -3,7 +3,13 @@
 namespace App\Kernel\Route;
 
 use App\Http\Middleware\AuthMiddleware;
-use App\Http\Controller\LinkShortenerController;
+
+use App\Http\Controller\{
+    AuthController,
+    LinkShortenerController
+};
+
+Route::post('users', [AuthController::class, 'register']);
 
 Route::post('link-shortener', [LinkShortenerController::class, 'create'])
     ->middlewareAction(new AuthMiddleware);

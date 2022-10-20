@@ -48,8 +48,6 @@ class Kernel
         // Register Application bindings.
         Route::handle();
         Mysql::handle();
-        
-        //var_dump(Route::getCurrentRouteDetails());
 
         return (new RequestActionPipeline)
             ->class(Request::getTargetClass())
