@@ -76,11 +76,11 @@ abstract class Request
     }
 
     /**
-     * @return string
+     * @return ?string
      *
      * @throws RouteNotFoundException
      */
-    public static function getMiddleware(): string
+    public static function getMiddleware(): ?string
     {
         return Route::getCurrentRouteDetails()['routeMiddleware'];
     }

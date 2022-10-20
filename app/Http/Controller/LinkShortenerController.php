@@ -16,6 +16,14 @@ class LinkShortenerController extends BaseController
 {
     /**
      * @return string
+     */
+    public function index(): string
+    {
+        return $this->response();
+    }
+
+    /**
+     * @return string
      *
      * @throws \App\Kernel\Route\Exceptions\RouteNotFoundException
      * @throws \App\Services\UrlShortener\Exceptions\InvalidUrlValidationException
