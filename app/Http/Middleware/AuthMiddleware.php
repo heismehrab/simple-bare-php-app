@@ -16,8 +16,6 @@ class AuthMiddleware implements MiddlewareInterface
      */
     public function handle(): bool
     {
-        echo 'Invalid token';
-
         return $_SERVER['HTTP_X_TOKEN'] === $_ENV['APP_X_HEADER_TOKEN'];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Kernel\Database;
 
+use Exception;
 use mysqli_result;
 
 use App\Kernel\KernelHandlerInterface;
@@ -31,14 +32,26 @@ class Mysql extends MysqlConnector implements KernelHandlerInterface
      */
     public static function query(string $query, array $bindings = []): bool|mysqli_result
     {
-         $query = self::getConnection()->prepare($query);
-         
-         $query->bind_param(
-             str_repeat('s', count($bindings)),
-             ... $bindings
-         );
+        self::getConnection()->begin_transaction();
 
-         return $query->execute();
+        try {
+            $query = self::getConnection()->prepare($query);
+
+            $query->bind_param(
+                str_repeat('s', count($bindings)),
+                ... $bindings
+            );
+
+            $result = $query->execute();
+
+            self::getConnection()->commit();
+
+            return $result;
+        } catch (Exception) {
+            self::getConnection()->rollback();
+        }
+
+        return false;
     }
 
     /**
