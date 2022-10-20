@@ -1,0 +1,233 @@
+{
+	"info": {
+		"_postman_id": "296008fb-81e6-47f0-a5eb-ccf273e4d8c9",
+		"name": "filimo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2368286"
+	},
+	"item": [
+		{
+			"name": "index",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X_TOKEN",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/link-shortener",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"link-shortener"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X_TOKEN",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "link",
+							"value": "https://google.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/link-shortener",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"link-shortener"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "X_TOKEN",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "localhost:8001/link-shortener?link=https://google.com&replacedLink=lnk://edited",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"link-shortener"
+					],
+					"query": [
+						{
+							"key": "link",
+							"value": "https://google.com"
+						},
+						{
+							"key": "replacedLink",
+							"value": "lnk://edited"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "X_TOKEN",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "localhost:8001/link-shortener?link=https://google.com",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"link-shortener"
+					],
+					"query": [
+						{
+							"key": "link",
+							"value": "https://google.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create user/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "a@a",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/users",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "decode and redirect",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X_TOKEN",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "{{url}}/links?e=166628887163518ce7b3086",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"links"
+					],
+					"query": [
+						{
+							"key": "e",
+							"value": "166628887163518ce7b3086"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjE1fQ.J6klJsPMIJ5pFLO5vPptWPBNJI1vV18lTGNYMs8XdLA",
+			"type": "string"
+		},
+		{
+			"key": "url",
+			"value": "localhost:8001",
+			"type": "string"
+		}
+	]
+}
